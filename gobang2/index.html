@@ -44,29 +44,22 @@
           <span>Black forbidden moves</span>
         </div>
       </div>
-
-      <div class="group buttons">
-        <button id="menu">Menu</button>
-        <button id="undo">Undo</button>
-      </div>
-
-      <div class="group save">
-        <label>Save / Load</label>
-        <div class="row">
-          <select id="slot">
-            <option value="1">Slot 1</option>
-            <option value="2">Slot 2</option>
-            <option value="3">Slot 3</option>
-          </select>
-          <button id="save">Save</button>
-          <button id="load">Load</button>
-        </div>
-      </div>
-
       <div class="group help">
         <p><strong>Rules:</strong> Black plays first. Five in a row wins. If ban-hand is on, Black cannot play overline, double-three, or double-four.</p>
       </div>
       </section>
+
+      <div class="board-actions">
+        <button id="menu">Menu</button>
+        <button id="undo">Undo</button>
+        <button id="save">Save</button>
+        <button id="load">Load</button>
+        <select id="slot" aria-label="Save slot">
+          <option value="1">Slot 1</option>
+          <option value="2">Slot 2</option>
+          <option value="3">Slot 3</option>
+        </select>
+      </div>
     </section>
   </main>
 
