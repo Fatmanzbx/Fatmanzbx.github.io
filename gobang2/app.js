@@ -13,7 +13,7 @@
   const modeEl = document.getElementById('mode');
   const difficultyEl = document.getElementById('difficulty');
   const banHandEl = document.getElementById('banhand');
-  const newGameEl = document.getElementById('newGame');
+  const menuEl = document.getElementById('menu');
   const undoEl = document.getElementById('undo');
   const slotEl = document.getElementById('slot');
   const saveEl = document.getElementById('save');
@@ -294,7 +294,9 @@
   });
 
   window.addEventListener('resize', draw);
-  newGameEl.addEventListener('click', resetGame);
+  menuEl.addEventListener('click', () => {
+    window.location.href = '/gobang1/';
+  });
 
   undoEl.addEventListener('click', () => {
     if (aiThinking) return;
