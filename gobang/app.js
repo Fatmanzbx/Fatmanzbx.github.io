@@ -5,10 +5,8 @@
   const EMPTY = 0;
   const DRAW = 2;
 
-  const BASE_WIDTH = 560;
-  const BASE_HEIGHT = 700;
-  const GRID_OFFSET_X = 140;
-  const GRID_OFFSET_Y = 280;
+  const GRID_RATIO_W = 0.78;
+  const GRID_RATIO_H = 0.58;
 
   const canvas = document.getElementById('board');
   const ctx = canvas.getContext('2d');
@@ -38,8 +36,8 @@
   let cellHeight = 0;
   let boardOffsetX = 0;
   let boardOffsetY = 0;
-  let marginX = 0;
-  let marginY = 0;
+  let gridWidth = 0;
+  let gridHeight = 0;
 
   function loadImage(path, onload) {
     const img = new Image();
@@ -164,36 +162,28 @@
       ctx.fillRect(0, 0, width, height);
     }
 
-    const baseWidth = boardImg.naturalWidth || BASE_WIDTH;
-    const baseHeight = boardImg.naturalHeight || BASE_HEIGHT;
-    const scaleX = width / baseWidth;
-    const scaleY = height / baseHeight;
-    const imgWidth = width - GRID_OFFSET_X * scaleX;
-    const imgHeight = height - GRID_OFFSET_Y * scaleY;
+    gridWidth = width * GRID_RATIO_W;
+    gridHeight = height * GRID_RATIO_H;
+    boardOffsetX = (width - gridWidth) / 2;
+    boardOffsetY = (height - gridHeight) / 2;
 
-    boardOffsetX = (width - imgWidth) / 2;
-    boardOffsetY = (height - imgHeight) / 2;
-
-    cellWidth = imgWidth / (BOARD_SIZE - 1);
-    cellHeight = imgHeight / (BOARD_SIZE - 1);
-
-    marginX = (imgWidth % (BOARD_SIZE - 1)) / 2 + boardOffsetX;
-    marginY = (imgHeight % (BOARD_SIZE - 1)) / 2 + boardOffsetY;
+    cellWidth = gridWidth / (BOARD_SIZE - 1);
+    cellHeight = gridHeight / (BOARD_SIZE - 1);
 
     ctx.strokeStyle = '#000000';
     ctx.lineWidth = 1;
 
     for (let i = 0; i < BOARD_SIZE; i++) {
-      const y = marginY + i * cellHeight;
+      const y = boardOffsetY + i * cellHeight;
       ctx.beginPath();
-      ctx.moveTo(marginX, y);
-      ctx.lineTo(width - marginX, y);
+      ctx.moveTo(boardOffsetX, y);
+      ctx.lineTo(boardOffsetX + gridWidth, y);
       ctx.stroke();
 
-      const x = marginX + i * cellWidth;
+      const x = boardOffsetX + i * cellWidth;
       ctx.beginPath();
-      ctx.moveTo(x, marginY);
-      ctx.lineTo(x, height - marginY);
+      ctx.moveTo(x, boardOffsetY);
+      ctx.lineTo(x, boardOffsetY + gridHeight);
       ctx.stroke();
     }
 
