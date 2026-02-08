@@ -5,8 +5,7 @@
   const EMPTY = 0;
   const DRAW = 2;
 
-  const GRID_RATIO_W = 0.78;
-  const GRID_RATIO_H = 0.58;
+  const GRID_RATIO = 0.7;
 
   const canvas = document.getElementById('board');
   const ctx = canvas.getContext('2d');
@@ -36,8 +35,7 @@
   let cellHeight = 0;
   let boardOffsetX = 0;
   let boardOffsetY = 0;
-  let gridWidth = 0;
-  let gridHeight = 0;
+  let gridSize = 0;
 
   function loadImage(path, onload) {
     const img = new Image();
@@ -162,13 +160,12 @@
       ctx.fillRect(0, 0, width, height);
     }
 
-    gridWidth = width * GRID_RATIO_W;
-    gridHeight = height * GRID_RATIO_H;
-    boardOffsetX = (width - gridWidth) / 2;
-    boardOffsetY = (height - gridHeight) / 2;
+    gridSize = Math.min(width, height) * GRID_RATIO;
+    boardOffsetX = (width - gridSize) / 2;
+    boardOffsetY = (height - gridSize) / 2;
 
-    cellWidth = gridWidth / (BOARD_SIZE - 1);
-    cellHeight = gridHeight / (BOARD_SIZE - 1);
+    cellWidth = gridSize / (BOARD_SIZE - 1);
+    cellHeight = gridSize / (BOARD_SIZE - 1);
 
     ctx.strokeStyle = '#000000';
     ctx.lineWidth = 1;
@@ -177,13 +174,13 @@
       const y = boardOffsetY + i * cellHeight;
       ctx.beginPath();
       ctx.moveTo(boardOffsetX, y);
-      ctx.lineTo(boardOffsetX + gridWidth, y);
+      ctx.lineTo(boardOffsetX + gridSize, y);
       ctx.stroke();
 
       const x = boardOffsetX + i * cellWidth;
       ctx.beginPath();
       ctx.moveTo(x, boardOffsetY);
-      ctx.lineTo(x, boardOffsetY + gridHeight);
+      ctx.lineTo(x, boardOffsetY + gridSize);
       ctx.stroke();
     }
 
@@ -199,7 +196,7 @@
   }
 
   function drawStones() {
-    const stoneSize = Math.min(cellWidth, cellHeight) * 0.75;
+    const stoneSize = cellWidth * 0.75;
 
     for (let i = 0; i < BOARD_SIZE; i++) {
       for (let j = 0; j < BOARD_SIZE; j++) {
@@ -236,19 +233,19 @@
   }
 
   function findCellFromClick(x, y) {
-    for (let row = 0; row < BOARD_SIZE; row++) {
-      for (let col = 0; col < BOARD_SIZE; col++) {
-        const gridX = row * cellWidth + boardOffsetX;
-        const gridY = col * cellHeight + boardOffsetY;
-        const dx = x - gridX;
-        const dy = y - gridY;
-        const threshold = (cellWidth + cellHeight) * (cellWidth + cellHeight) / 25;
-        if (dx * dx + dy * dy < threshold && board[row][col] === EMPTY) {
-          return { row, col };
-        }
-      }
-    }
-    return null;
+    const fx = (x - boardOffsetX) / cellWidth;
+    const fy = (y - boardOffsetY) / cellHeight;
+    const row = Math.round(fx);
+    const col = Math.round(fy);
+    if (row < 0 || row >= BOARD_SIZE || col < 0 || col >= BOARD_SIZE) return null;
+
+    const gridX = boardOffsetX + row * cellWidth;
+    const gridY = boardOffsetY + col * cellHeight;
+    const dx = x - gridX;
+    const dy = y - gridY;
+    const maxDist = cellWidth * 0.55;
+    if (dx * dx + dy * dy > maxDist * maxDist) return null;
+    return { row, col };
   }
 
   function handleHumanMove(row, col) {
