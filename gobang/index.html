@@ -8,6 +8,23 @@
 </head>
 <body>
   <main class="app">
+    <section id="startScreen" class="start-screen">
+      <div class="start-panel">
+        <h1>Gobang (Renju)</h1>
+        <div class="start-buttons">
+          <button id="startPlayBlack">Play Black</button>
+          <button id="startPlayWhite">Play White</button>
+          <button id="startTwoPlayer">Two Player</button>
+        </div>
+        <div class="start-difficulty">
+          <label for="startDifficulty">AI Difficulty</label>
+          <input id="startDifficulty" type="range" min="0" max="2" step="1" value="1" />
+          <div class="range-labels">
+            <span>Easy</span><span>Medium</span><span>Hard</span>
+          </div>
+        </div>
+      </div>
+    </section>
     <header class="header">
       <div>
         <h1>Gobang (Renju)</h1>
@@ -20,8 +37,8 @@
       <canvas id="board" width="560" height="560"></canvas>
 
       <section class="controls">
-      <div class="group">
-        <label>Mode</label>
+        <div class="group">
+          <label>Mode</label>
         <select id="mode">
           <option value="playBlack">Play Black (You first)</option>
           <option value="playWhite">Play White (AI first)</option>
@@ -48,6 +65,7 @@
       <div class="group buttons">
         <button id="newGame">New Game</button>
         <button id="undo">Undo</button>
+        <button id="menu">Menu</button>
       </div>
 
       <div class="group save">
