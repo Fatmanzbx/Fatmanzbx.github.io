@@ -149,25 +149,26 @@
   }
 
   function draw() {
-    const size = Math.min(canvas.clientWidth, canvas.clientHeight);
-    canvas.width = size;
-    canvas.height = size;
+    const width = canvas.clientWidth;
+    const height = canvas.clientHeight;
+    canvas.width = width;
+    canvas.height = height;
 
-    ctx.clearRect(0, 0, size, size);
+    ctx.clearRect(0, 0, width, height);
 
     if (boardImg.complete) {
-      ctx.drawImage(boardImg, 0, 0, size, size);
+      ctx.drawImage(boardImg, 0, 0, width, height);
     } else {
       ctx.fillStyle = '#f6ddad';
-      ctx.fillRect(0, 0, size, size);
+      ctx.fillRect(0, 0, width, height);
     }
 
-    const scale = size / BASE_SIZE;
-    const imgWidth = size - GRID_OFFSET_X * scale;
-    const imgHeight = size - GRID_OFFSET_Y * scale;
+    const scale = width / BASE_SIZE;
+    const imgWidth = width - GRID_OFFSET_X * scale;
+    const imgHeight = height - GRID_OFFSET_Y * scale;
 
-    boardOffsetX = (size - imgWidth) / 2;
-    boardOffsetY = (size - imgHeight) / 2;
+    boardOffsetX = (width - imgWidth) / 2;
+    boardOffsetY = (height - imgHeight) / 2;
 
     cellWidth = imgWidth / (BOARD_SIZE - 1);
     cellHeight = imgHeight / (BOARD_SIZE - 1);
@@ -182,24 +183,24 @@
       const y = marginY + i * cellHeight;
       ctx.beginPath();
       ctx.moveTo(marginX, y);
-      ctx.lineTo(size - marginX, y);
+      ctx.lineTo(width - marginX, y);
       ctx.stroke();
 
       const x = marginX + i * cellWidth;
       ctx.beginPath();
       ctx.moveTo(x, marginY);
-      ctx.lineTo(x, size - marginY);
+      ctx.lineTo(x, height - marginY);
       ctx.stroke();
     }
 
     drawStones();
 
     if (gameResult === DRAW && drawImg.complete) {
-      ctx.drawImage(drawImg, 0, 0, size, size);
+      ctx.drawImage(drawImg, 0, 0, width, height);
     } else if (gameResult === BLACK && winBlackImg.complete) {
-      ctx.drawImage(winBlackImg, 0, 0, size, size);
+      ctx.drawImage(winBlackImg, 0, 0, width, height);
     } else if (gameResult === WHITE && winWhiteImg.complete) {
-      ctx.drawImage(winWhiteImg, 0, 0, size, size);
+      ctx.drawImage(winWhiteImg, 0, 0, width, height);
     }
   }
 

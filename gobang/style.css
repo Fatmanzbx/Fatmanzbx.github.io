@@ -56,8 +56,9 @@ h1 {
   background: #f6ddad;
   border: 10px solid #c59a63;
   box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-  width: min(90vw, 560px);
-  height: min(90vw, 560px);
+  width: min(92vw, 560px);
+  aspect-ratio: 560 / 700;
+  height: auto;
 }
 
 .controls {
