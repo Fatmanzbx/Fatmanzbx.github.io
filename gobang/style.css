@@ -12,7 +12,7 @@ body {
   margin: 0;
   font-family: "Georgia", "Times New Roman", serif;
   color: var(--ink);
-  background: radial-gradient(circle at 20% 20%, #fff6e8, #efe2d0);
+  background: #e6e6e6;
 }
 
 .app {
@@ -50,11 +50,12 @@ h1 {
   margin: 18px 0;
   display: flex;
   justify-content: center;
+  position: relative;
 }
 
 #board {
   background: #f6ddad;
-  border: 10px solid #c59a63;
+  border: 10px solid #000000;
   box-shadow: 0 10px 30px rgba(0,0,0,0.2);
   width: min(92vw, 560px);
   aspect-ratio: 560 / 700;
@@ -62,13 +63,18 @@ h1 {
 }
 
 .controls {
+  position: absolute;
+  top: 12px;
+  left: 12px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 16px;
-  background: var(--panel);
-  border: 1px solid #e3d4bf;
-  border-radius: 12px;
-  padding: 16px;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  width: 220px;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid #000;
+  border-radius: 10px;
+  padding: 10px;
+  backdrop-filter: blur(2px);
 }
 
 .group label {
@@ -113,7 +119,6 @@ button:hover {
 }
 
 .help {
-  grid-column: 1 / -1;
   font-size: 14px;
   opacity: 0.85;
 }
