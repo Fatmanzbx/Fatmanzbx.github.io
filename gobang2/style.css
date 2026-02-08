@@ -63,23 +63,13 @@ h1 {
   height: auto;
 }
 
-.board-actions {
-  position: absolute;
-  top: 16px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: grid;
-  grid-template-columns: repeat(2, 180px);
-  gap: 12px 16px;
-}
-
 .board-actions button {
   border: 2px solid #6f7a86;
   background: #f7f7f7;
-  padding: 8px 10px;
-  border-radius: 10px;
+  padding: 4px 6px;
+  border-radius: 5px;
   cursor: pointer;
-  font-size: 18px;
+  font-size: 12px;
   font-weight: 600;
   color: #1d1b16;
   box-shadow: inset 0 1px 0 rgba(255,255,255,0.8);
@@ -95,12 +85,12 @@ h1 {
   right: 14px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 4px;
   align-items: stretch;
   background: rgba(255, 255, 255, 0.9);
   border: 1px solid #000;
   border-radius: 10px;
-  padding: 10px;
+  padding: 6px;
   backdrop-filter: blur(3px);
   box-shadow: 0 6px 18px rgba(0,0,0,0.25);
   z-index: 2;
