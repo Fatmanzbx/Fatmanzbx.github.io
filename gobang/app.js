@@ -5,7 +5,7 @@
   const EMPTY = 0;
   const DRAW = 2;
 
-  const GRID_RATIO = 0.7;
+  const GRID_RATIO = 0.62;
 
   const canvas = document.getElementById('board');
   const ctx = canvas.getContext('2d');
