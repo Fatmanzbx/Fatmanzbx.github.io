@@ -10,9 +10,6 @@
   const canvas = document.getElementById('board');
   const ctx = canvas.getContext('2d');
   const statusEl = document.getElementById('status');
-  const modeEl = document.getElementById('mode');
-  const difficultyEl = document.getElementById('difficulty');
-  const banHandEl = document.getElementById('banhand');
   const menuEl = document.getElementById('menu');
   const undoEl = document.getElementById('undo');
   const saveEl = document.getElementById('save');
@@ -30,6 +27,9 @@
   let gameResult = 0; // 0 ongoing, -1 black win, 1 white win, 2 draw
   let lastMove = null;
   let aiThinking = false;
+  let gameMode = 'playBlack';
+  let aiDifficulty = 1;
+  let isBanHandEnabled = true;
 
   let cellWidth = 0;
   let cellHeight = 0;
@@ -61,7 +61,7 @@
     aiThinking = false;
     setStatus('Ready');
 
-    if (modeEl.value === 'playWhite') {
+    if (gameMode === 'playWhite') {
       placeStone(7, 7, BLACK, true);
       lastMove = { row: 7, col: 7 };
     }
@@ -72,7 +72,7 @@
 
   function placeStone(row, col, color, skipChecks = false) {
     if (board[row][col] !== EMPTY) return false;
-    if (!skipChecks && banHandEl.checked && color === BLACK && AI.isFoulMove(row, col, board)) {
+    if (!skipChecks && isBanHandEnabled && color === BLACK && AI.isFoulMove(row, col, board)) {
       alert('Forbidden move (Renju): Black cannot play overline/double-three/double-four.');
       return false;
     }
@@ -252,14 +252,14 @@
   function handleHumanMove(row, col) {
     if (gameResult !== 0 || aiThinking) return;
 
-    if (modeEl.value === 'twoPlayer') {
+    if (gameMode === 'twoPlayer') {
       const color = (moveCount % 2 === 0) ? BLACK : WHITE;
       if (!placeStone(row, col, color)) return;
       draw();
       return;
     }
 
-    const humanColor = modeEl.value === 'playBlack' ? BLACK : WHITE;
+    const humanColor = gameMode === 'playBlack' ? BLACK : WHITE;
     if (!placeStone(row, col, humanColor)) return;
     draw();
 
@@ -274,7 +274,7 @@
 
     setTimeout(() => {
       const ai = new AI(board, humanColor);
-      ai.setDifficulty(Number(difficultyEl.value));
+      ai.setDifficulty(aiDifficulty);
       const move = ai.getResult();
       if (move && gameResult === 0) {
         placeStone(move[0], move[1], -humanColor, true);
@@ -300,7 +300,7 @@
 
   undoEl.addEventListener('click', () => {
     if (aiThinking) return;
-    if (modeEl.value === 'twoPlayer') {
+    if (gameMode === 'twoPlayer') {
       undoMoves(1);
     } else {
       undoMoves(2);
@@ -308,12 +308,16 @@
     draw();
   });
 
+  menuEl.addEventListener('click', () => {
+    window.location.href = '/gobang1/';
+  });
+
   saveEl.addEventListener('click', () => {
     const slot = DEFAULT_SLOT;
     const data = {
-      mode: modeEl.value,
-      difficulty: Number(difficultyEl.value),
-      banHand: banHandEl.checked,
+      mode: gameMode,
+      difficulty: aiDifficulty,
+      banHand: isBanHandEnabled,
       moves: moveHistory,
     };
     localStorage.setItem(`gobang_slot_${slot}`, JSON.stringify(data));
@@ -328,9 +332,9 @@
       return;
     }
     const data = JSON.parse(raw);
-    modeEl.value = data.mode;
-    difficultyEl.value = data.difficulty ?? 1;
-    banHandEl.checked = data.banHand ?? true;
+    gameMode = data.mode || gameMode;
+    aiDifficulty = data.difficulty ?? aiDifficulty;
+    isBanHandEnabled = data.banHand ?? isBanHandEnabled;
 
     board = createBoard();
     moveHistory = [];
@@ -345,16 +349,6 @@
     draw();
     setStatus(`Loaded (Slot ${slot})`);
   });
-
-  modeEl.addEventListener('change', resetGame);
-  difficultyEl.addEventListener('change', () => {
-    if (modeEl.value === 'twoPlayer') return;
-    setStatus(`AI Difficulty: ${difficultyName(Number(difficultyEl.value))}`);
-  });
-
-  function difficultyName(level) {
-    return ['Easy', 'Medium', 'Hard'][level] || 'Medium';
-  }
 
   // ===================== AI PORT =====================
   class AI {
@@ -1027,12 +1021,8 @@
 
   function initFromQuery() {
     const params = new URLSearchParams(window.location.search);
-    const mode = params.get('mode') || 'playBlack';
-    const difficulty = Number(params.get('difficulty') || 1);
-    modeEl.value = mode;
-    difficultyEl.value = String(difficulty);
-    modeEl.disabled = true;
-    difficultyEl.disabled = true;
+    gameMode = params.get('mode') || 'playBlack';
+    aiDifficulty = Number(params.get('difficulty') || 1);
   }
 
   initFromQuery();
