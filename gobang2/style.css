@@ -97,6 +97,18 @@ h1 {
   z-index: 2;
 }
 
+.slot-select {
+  grid-column: 1 / -1;
+  height: 38px;
+  border: 2px solid #6f7a86;
+  background: #f7f7f7;
+  border-radius: 10px;
+  padding: 0 10px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #1d1b16;
+}
+
 @media (max-width: 600px) {
   .header {
     flex-direction: column;

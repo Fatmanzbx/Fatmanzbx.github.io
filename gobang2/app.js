@@ -14,6 +14,7 @@
   const undoEl = document.getElementById('undo');
   const saveEl = document.getElementById('save');
   const loadEl = document.getElementById('load');
+  const slotEl = document.getElementById('slot');
   const DEFAULT_SLOT = '1';
 
   const boardImg = loadImage('assets/qipan.jpg', draw);
@@ -313,7 +314,7 @@
   });
 
   saveEl.addEventListener('click', () => {
-    const slot = DEFAULT_SLOT;
+    const slot = slotEl ? slotEl.value : DEFAULT_SLOT;
     const data = {
       mode: gameMode,
       difficulty: aiDifficulty,
@@ -325,10 +326,10 @@
   });
 
   loadEl.addEventListener('click', () => {
-    const slot = DEFAULT_SLOT;
+    const slot = slotEl ? slotEl.value : DEFAULT_SLOT;
     const raw = localStorage.getItem(`gobang_slot_${slot}`);
     if (!raw) {
-      alert('No save found.');
+      alert('No save found in this slot.');
       return;
     }
     const data = JSON.parse(raw);
