@@ -5,7 +5,8 @@
   const EMPTY = 0;
   const DRAW = 2;
 
-  const BASE_SIZE = 560;
+  const BASE_WIDTH = 560;
+  const BASE_HEIGHT = 700;
   const GRID_OFFSET_X = 140;
   const GRID_OFFSET_Y = 280;
 
@@ -163,9 +164,12 @@
       ctx.fillRect(0, 0, width, height);
     }
 
-    const scale = width / BASE_SIZE;
-    const imgWidth = width - GRID_OFFSET_X * scale;
-    const imgHeight = height - GRID_OFFSET_Y * scale;
+    const baseWidth = boardImg.naturalWidth || BASE_WIDTH;
+    const baseHeight = boardImg.naturalHeight || BASE_HEIGHT;
+    const scaleX = width / baseWidth;
+    const scaleY = height / baseHeight;
+    const imgWidth = width - GRID_OFFSET_X * scaleX;
+    const imgHeight = height - GRID_OFFSET_Y * scaleY;
 
     boardOffsetX = (width - imgWidth) / 2;
     boardOffsetY = (height - imgHeight) / 2;
