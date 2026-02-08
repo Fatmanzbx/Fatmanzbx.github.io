@@ -15,9 +15,9 @@
   const banHandEl = document.getElementById('banhand');
   const menuEl = document.getElementById('menu');
   const undoEl = document.getElementById('undo');
-  const slotEl = document.getElementById('slot');
   const saveEl = document.getElementById('save');
   const loadEl = document.getElementById('load');
+  const DEFAULT_SLOT = '1';
 
   const boardImg = loadImage('assets/qipan.jpg', draw);
   const winBlackImg = loadImage('assets/Blackwin.jpg');
@@ -309,7 +309,7 @@
   });
 
   saveEl.addEventListener('click', () => {
-    const slot = slotEl.value;
+    const slot = DEFAULT_SLOT;
     const data = {
       mode: modeEl.value,
       difficulty: Number(difficultyEl.value),
@@ -317,14 +317,14 @@
       moves: moveHistory,
     };
     localStorage.setItem(`gobang_slot_${slot}`, JSON.stringify(data));
-    setStatus(`Saved to Slot ${slot}`);
+    setStatus(`Saved (Slot ${slot})`);
   });
 
   loadEl.addEventListener('click', () => {
-    const slot = slotEl.value;
+    const slot = DEFAULT_SLOT;
     const raw = localStorage.getItem(`gobang_slot_${slot}`);
     if (!raw) {
-      alert('No save found in this slot.');
+      alert('No save found.');
       return;
     }
     const data = JSON.parse(raw);
@@ -343,7 +343,7 @@
     }
 
     draw();
-    setStatus(`Loaded from Slot ${slot}`);
+    setStatus(`Loaded (Slot ${slot})`);
   });
 
   modeEl.addEventListener('change', resetGame);
