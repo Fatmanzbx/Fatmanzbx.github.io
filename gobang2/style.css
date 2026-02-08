@@ -83,10 +83,10 @@ h1 {
   position: absolute;
   top: 14px;
   right: 14px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  align-items: stretch;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 4px 6px;
+  align-items: center;
   background: rgba(255, 255, 255, 0.9);
   border: 1px solid #000;
   border-radius: 10px;
