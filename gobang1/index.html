@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gobang (Renju) - Menu</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="menu">
+    <section class="start-screen">
+      <div class="start-panel">
+        <h1>Gobang (Renju)</h1>
+        <div class="start-buttons">
+          <button data-mode="playBlack">Play Black</button>
+          <button data-mode="playWhite">Play White</button>
+          <button data-mode="twoPlayer">Two Player</button>
+        </div>
+        <div class="start-difficulty">
+          <label for="startDifficulty">AI Difficulty</label>
+          <input id="startDifficulty" type="range" min="0" max="2" step="1" value="1" />
+          <div class="range-labels">
+            <span>Easy</span><span>Medium</span><span>Hard</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="menu.js"></script>
+</body>
+</html>

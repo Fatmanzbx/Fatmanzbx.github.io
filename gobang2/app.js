@@ -15,16 +15,9 @@
   const banHandEl = document.getElementById('banhand');
   const newGameEl = document.getElementById('newGame');
   const undoEl = document.getElementById('undo');
-  const menuEl = document.getElementById('menu');
   const slotEl = document.getElementById('slot');
   const saveEl = document.getElementById('save');
   const loadEl = document.getElementById('load');
-
-  const startScreenEl = document.getElementById('startScreen');
-  const startPlayBlackEl = document.getElementById('startPlayBlack');
-  const startPlayWhiteEl = document.getElementById('startPlayWhite');
-  const startTwoPlayerEl = document.getElementById('startTwoPlayer');
-  const startDifficultyEl = document.getElementById('startDifficulty');
 
   const boardImg = loadImage('assets/qipan.jpg', draw);
   const winBlackImg = loadImage('assets/Blackwin.jpg');
@@ -76,20 +69,6 @@
     draw();
   }
 
-  function showStartScreen() {
-    startScreenEl.classList.remove('hidden');
-  }
-
-  function hideStartScreen() {
-    startScreenEl.classList.add('hidden');
-  }
-
-  function startFromMenu(mode) {
-    modeEl.value = mode;
-    difficultyEl.value = startDifficultyEl.value;
-    hideStartScreen();
-    resetGame();
-  }
 
   function placeStone(row, col, color, skipChecks = false) {
     if (board[row][col] !== EMPTY) return false;
@@ -316,9 +295,6 @@
 
   window.addEventListener('resize', draw);
   newGameEl.addEventListener('click', resetGame);
-  menuEl.addEventListener('click', () => {
-    showStartScreen();
-  });
 
   undoEl.addEventListener('click', () => {
     if (aiThinking) return;
@@ -373,10 +349,6 @@
     if (modeEl.value === 'twoPlayer') return;
     setStatus(`AI Difficulty: ${difficultyName(Number(difficultyEl.value))}`);
   });
-
-  startPlayBlackEl.addEventListener('click', () => startFromMenu('playBlack'));
-  startPlayWhiteEl.addEventListener('click', () => startFromMenu('playWhite'));
-  startTwoPlayerEl.addEventListener('click', () => startFromMenu('twoPlayer'));
 
   function difficultyName(level) {
     return ['Easy', 'Medium', 'Hard'][level] || 'Medium';
@@ -1051,5 +1023,16 @@
     return count >= 2;
   }
 
-  showStartScreen();
+  function initFromQuery() {
+    const params = new URLSearchParams(window.location.search);
+    const mode = params.get('mode') || 'playBlack';
+    const difficulty = Number(params.get('difficulty') || 1);
+    modeEl.value = mode;
+    difficultyEl.value = String(difficulty);
+    modeEl.disabled = true;
+    difficultyEl.disabled = true;
+  }
+
+  initFromQuery();
+  resetGame();
 })();
