@@ -30,19 +30,15 @@ body {
   height: 700px;
   background: url("../gobang2/assets/qipanstart.jpg") center/cover no-repeat;
   position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
+  display: block;
   box-shadow: 0 8px 24px rgba(0,0,0,0.25);
 }
 
 .title {
   position: absolute;
-  top: 20px;
-  left: 24px;
-  right: 24px;
+  top: 24px;
+  left: 16px;
+  right: 16px;
   text-align: center;
   font-size: 56px;
   font-weight: 700;
@@ -54,9 +50,13 @@ body {
 }
 
 .start-buttons {
+  position: absolute;
+  top: 220px;
+  left: 0;
+  right: 0;
   display: grid;
   gap: 12px;
-  margin-top: 140px;
+  justify-items: center;
 }
 
 .start-difficulty label {
@@ -94,4 +94,15 @@ button:hover {
 
 input[type="range"] {
   width: 260px;
+}
+
+.start-difficulty {
+  position: absolute;
+  top: 430px;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
 }
